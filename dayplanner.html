@@ -1,0 +1,150 @@
+
+<html>
+<head>
+  <title>Weekly Day Planner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3a4349;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #060606;
+    }
+
+    .container {
+      background-color: #b3899a;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: rgb(235, 202, 202);
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .task {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .small {
+      font-size: 12px;
+      color: rgb(181, 144, 179);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weekly Day Planner</h1>
+
+    <label>Task</label>
+    <input type="text" id="task">
+
+    <label>Day</label>
+    <select id="day">
+      <option>Monday</option>
+      <option>Tuesday</option>
+      <option>Wednesday</option>
+      <option>Thursday</option>
+      <option>Friday</option>
+      <option>Saturday</option>
+      <option>Sunday</option>
+    </select>
+
+    <label>Time</label>
+    <input type="time" id="time">
+
+    <label>
+      <input type="checkbox" id="repeat"> Repeat Weekly
+    </label>
+
+    <label>Affirmation</label>
+    <textarea id="affirmation" placeholder="Write something to motivate you..."></textarea>
+
+    <button onclick="addTask()">Save Task</button>
+    <button onclick="clearTasks()">Clear All</button>
+
+    <div id="task-list"></div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    function addTask() {
+      let task = document.getElementById("task").value;
+      let day = document.getElementById("day").value;
+      let time = document.getElementById("time").value;
+      let repeat = document.getElementById("repeat").checked;
+      let affirmation = document.getElementById("affirmation").value;
+
+      if (task === "" || time === "") {
+        alert("Please enter both task and time.");
+        return;
+      }
+
+      let newTask = {
+        task: task,
+        day: day,
+        time: time,
+        repeat: repeat,
+        affirmation: affirmation
+      };
+
+      tasks.push(newTask);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      showTasks();
+
+      // clear inputs
+      document.getElementById("task").value = "";
+      document.getElementById("time").value = "";
+      document.getElementById("repeat").checked = false;
+      document.getElementById("affirmation").value = "";
+    }
+
+    function showTasks() {
+      let list = document.getElementById("task-list");
+      list.innerHTML = "";
+
+      tasks.forEach(function(t) {
+        let div = document.createElement("div");
+        div.className = "task";
+        div.innerHTML = `
+          <strong>${t.task}</strong><br>
+          ${t.day} at ${t.time} ${t.repeat ? "(Repeats)" : ""}<br>
+          <span class="small">${t.affirmation}</span>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function clearTasks() {
+      if (confirm("Are you sure you want to delete all tasks?")) {
+        tasks = [];
+        localStorage.removeItem("tasks");
+        showTasks();
+      }
+    }
+
+    showTasks();
+  </script>
+</body>
+</html>
