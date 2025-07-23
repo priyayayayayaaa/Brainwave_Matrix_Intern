@@ -32,7 +32,10 @@ A simple, responsive web-based weekly planner that lets you schedule tasks, set 
 
    ```bash
  Hi, I'm Priya Kumari!
-I'm learning web development and built this Basic Day Planner to help users manage daily tasks easily. It features task input, dark mode, and a weekly view — with more features coming soon!
 
-📬 Connect with Me
-🔗 LinkedIn
+I'm learning web development and built this Basic Day Planner to help users manage daily tasks easily. It features task input, dark mode, and a weekly view — with more features coming soon!
+www.linkedin.com/in/priya-kumari-2b669b2a2
+
+
+
+
